@@ -95,5 +95,32 @@ namespace Demokrata.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("search")]
+        public IActionResult SearchUsuarios(string nombre, int page = 1, int pageSize = 10)
+        {
+            var (usuarios, totalCount) = _usuariosServices.BuscarUsuario(nombre, page, pageSize);
+            var usuariosDTO = usuarios.Select(u => new UsuarioDTO
+            {
+                Id = u.Id,
+                PrimerNombre = u.PrimerNombre,
+                SegundoNombre = u.SegundoNombre,
+                PrimerApellido = u.PrimerApellido,
+                SegundoApellido = u.SegundoApellido,
+                FechaNacimiento = u.FechaNacimiento,
+                Sueldo = u.Sueldo,
+                FechaModificacion = u.FechaModificacion
+            }).ToList();
+
+            var response = new
+            {
+                Data = usuariosDTO,
+                TotalCount = totalCount,
+                CurrentPage = page,
+                PageSize = pageSize
+            };
+
+            return Ok(response);
+        }
     }
 }

@@ -66,7 +66,7 @@ namespace Demokrata.Services
         }
 
 
-        public ICollection<Usuario> BuscarUsuario(string nombre)
+        public (ICollection<Usuario>, int) BuscarUsuario(string nombre, int page, int pageSize)
         {
             IQueryable<Usuario> query = _db.Usuarios;
 
@@ -74,7 +74,13 @@ namespace Demokrata.Services
             {
                 query = query.Where(e => e.PrimerNombre.Contains(nombre) || e.PrimerApellido.Contains(nombre));
             }
-            return query.ToList();
+
+            var totalCount = query.Count();
+            var usuarios = query.Skip((page - 1) * pageSize)
+                                .Take(pageSize)
+                                .ToList();
+
+            return (usuarios, totalCount);
         }
 
 

@@ -9,6 +9,6 @@ namespace Demokrata.Services
         bool CreateUsuario(Usuario usuario);
         bool UpdateUsuario(int id, Usuario usuario);
         bool DeleteUsuario(int id);
-        ICollection<Usuario> BuscarUsuario(string nombre);
+        (ICollection<Usuario>, int) BuscarUsuario(string nombre, int page, int pageSize);
     }
 }
