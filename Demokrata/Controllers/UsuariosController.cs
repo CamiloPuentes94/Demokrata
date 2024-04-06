@@ -109,6 +109,7 @@ namespace Demokrata.Controllers
                 SegundoApellido = u.SegundoApellido,
                 FechaNacimiento = u.FechaNacimiento,
                 Sueldo = u.Sueldo,
+                FechaCreacion = u.FechaCreacion,
                 FechaModificacion = u.FechaModificacion
             }).ToList();
 
