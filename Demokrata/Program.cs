@@ -1,4 +1,5 @@
 using Demokrata.Data;
+using Demokrata.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<aplicacionDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConexionSql"));
+});
+
+builder.Services.AddScoped<IUsuariosServices, UsuariosServices>();
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
 });
 
 // Add services to the container.

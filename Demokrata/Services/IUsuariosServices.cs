@@ -7,8 +7,8 @@ namespace Demokrata.Services
         ICollection<Usuario> GetUsuarios();
         Usuario GetUsuario(int id);
         bool CreateUsuario(Usuario usuario);
-        bool UpdateUsuario(Usuario usuario);
-        bool DeleteUsuario(Usuario usuario);
+        bool UpdateUsuario(int id, Usuario usuario);
+        bool DeleteUsuario(int id);
         ICollection<Usuario> BuscarUsuario(string nombre);
     }
 }

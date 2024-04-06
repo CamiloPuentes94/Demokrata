@@ -21,18 +21,37 @@ namespace Demokrata.Services
             return Guardar();
         }
 
-        public bool UpdateUsuario(Usuario usuario)
+        public bool UpdateUsuario(int id, Usuario usuario)
         {
-            usuario.FechaModificacion = DateTime.Now;
-            _db.Usuarios.Update(usuario);
+            var usuarioDB = _db.Usuarios.FirstOrDefault(u => u.Id == id);
+            if (usuarioDB == null)
+            {
+                return false;
+            }
 
+            // Actualizar solo los campos que se enviaron en el usuario
+            usuarioDB.PrimerNombre = usuario.PrimerNombre ?? usuarioDB.PrimerNombre;
+            usuarioDB.SegundoNombre = usuario.SegundoNombre ?? usuarioDB.SegundoNombre;
+            usuarioDB.PrimerApellido = usuario.PrimerApellido ?? usuarioDB.PrimerApellido;
+            usuarioDB.SegundoApellido = usuario.SegundoApellido ?? usuarioDB.SegundoApellido;
+            usuarioDB.FechaNacimiento = usuario.FechaNacimiento != default(DateTime) ? usuario.FechaNacimiento : usuarioDB.FechaNacimiento;
+            usuarioDB.Sueldo = usuario.Sueldo != 0 ? usuario.Sueldo : usuarioDB.Sueldo;
+
+            usuarioDB.FechaModificacion = DateTime.Now;
+
+            _db.Usuarios.Update(usuarioDB);
             return Guardar();
         }
 
-        public bool DeleteUsuario(Usuario usuario)
+        public bool DeleteUsuario(int id)
         {
-            _db.Usuarios.Remove(usuario);
+            var usuario = _db.Usuarios.FirstOrDefault(u => u.Id == id);
+            if (usuario == null)
+            {
+                return false;
+            }
 
+            _db.Usuarios.Remove(usuario);
             return Guardar();
         }
 
